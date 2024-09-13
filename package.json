@@ -1,23 +1,25 @@
 {
 	"name": "protocol-buffers-performance-and-size-test",
 	"module": "index.ts",
-	"type": "module",
+	"type": "commonjs",
 	"scripts": {
-		"dev": "tsx watch ./index.ts",
-		"build": "rsbuild build"
+		"dev": "concurrently --kill-others \"npm run start-watch\" \"npm run build-watch\"",
+		"start-watch": "tsx watch ./index.ts",
+		"build-watch": "rsbuild build --watch"
 	},
 	"peerDependencies": {
 		"typescript": "^5.0.0"
 	},
 	"dependencies": {
-		"ts-protoc-gen": "^0.15.0",
 		"@hono/node-server": "^1.12.2",
-		"hono": "^4.6.1"
+		"hono": "^4.6.1",
+		"ts-protoc-gen": "^0.15.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.0",
 		"@rsbuild/core": "^1.0.1",
 		"@types/node": "^20.11.17",
+		"concurrently": "^9.0.1",
 		"tsx": "^4.7.1"
 	}
 }

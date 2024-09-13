@@ -1,3 +1,3 @@
-import { defineConfig } from '@rsbuild/core';
+import { defineConfig } from "@rsbuild/core";
 
 export default defineConfig({});
