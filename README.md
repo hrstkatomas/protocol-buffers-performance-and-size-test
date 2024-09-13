@@ -32,3 +32,17 @@ Compile protocol buffer schemas
 ```bash
 ./protocBuild.sh
 ```
+
+Build little vanilla client app
+```bash
+npm run build
+```
+
+Run dev server
+```bash
+npm run dev
+```
+
+
+### notes unde line
+Use npm for the project. Bun does not yet support compresion streams.
