@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "concurrently --kill-others \"npm run start-watch\" \"npm run build-watch\"",
 		"start-watch": "tsx watch ./index.ts",
-		"build-watch": "rsbuild build --watch"
+		"build-watch": "rsbuild build --watch",
+		"build-proto": "./protocBuild.sh"
 	},
 	"peerDependencies": {
 		"typescript": "^5.0.0"
