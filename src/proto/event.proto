@@ -1,0 +1,76 @@
+
+syntax = "proto3";
+
+package eventFeed.v1;
+
+message Event {
+  int32 home_current_result = 1;
+  int32 away_current_result = 2;
+  string live = 3;
+  int32 home_red_card_count = 4;
+  int32 away_red_card_count = 5;
+  string has_tv_or_livestreaming = 6;  // JSON string
+  string info_notice = 7;
+  string has_live_betting = 8;
+  int64 period_start_utime = 9;
+  int64 match_end_utime = 10;
+  int64 period_update_utime = 11;
+  int32 assists = 12;
+  int32 home_full_time_result = 13;
+  int32 away_full_time_result = 14;
+  string highlights = 15;
+  string has_live_centre = 16;
+  int32 has_lineups = 17;
+  string has_odds_comparison = 18;
+  string ft_winner = 19;
+  string home_result_period_1 = 20;
+  string away_result_period_1 = 21;
+  int32 source_type_of_game = 22;
+  int32 home_draw_participant_winner = 23;
+  int32 away_draw_participant_winner = 24;
+  int32 home_participant_country_id = 25;
+  int32 away_participant_country_id = 26;
+  float odds_winner = 27;
+  float odds_top_10 = 28;
+  float odds_winner_previous = 29;
+  float odds_top_10_previous = 30;
+  string inactive_odds = 31;
+  int32 home_scores_changed = 32;
+  int32 away_scores_changed = 33;
+  int32 swapped_participants = 34;
+  repeated int32 home_penalty_shot = 35;  // Array of 2 elements
+  repeated int32 away_penalty_shot = 36;  // Array of 2 elements
+  repeated int32 home_penalty_missed = 37;  // Array of 2 elements
+  repeated int32 away_penalty_missed = 38;  // Array of 2 elements
+  float odds_top_5 = 39;
+  float odds_top_5_previous = 40;
+  bool is_valid = 41;
+  string original_id = 42;
+  string label_id = 43;
+  string sport_id = 44;
+  string sport = 45;
+  int64 match_start_utime = 46;
+  int64 event_start_utime = 47;
+  int32 event_stage_type_id = 48;
+  int32 event_stage_type_from_event_stage_id = 49;
+  int32 event_stage_id = 50;
+  string sort_participant = 51;
+  float cricket_visible_run_rate = 52;
+  string game_time = 53;
+  string playing_on_sets = 54;
+  string cricket_recent_overs = 55;
+  string home_3char_name = 56;
+  string home_participant_name = 57;
+  string home_first_participant_name = 58;
+  string home_event_participant_id = 59;
+  int32 home_goal_under_review = 60;
+  string betting_type = 61;
+  string away_3char_name = 62;
+  string away_participant_name = 63;
+  string away_first_participant_name = 64;
+  string away_event_participant_id = 65;
+  int32 away_goal_under_review = 66;
+  string odds_scope = 67;
+  string bookmaker_list_live_in_offer = 68;
+  string sort_key_str = 69;
+}

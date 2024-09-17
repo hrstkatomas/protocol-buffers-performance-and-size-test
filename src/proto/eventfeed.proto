@@ -1,0 +1,10 @@
+
+syntax = "proto3";
+
+package eventFeed.v1;
+
+import "league.proto";
+
+message EventFeed {
+  repeated League leagues = 1;
+}

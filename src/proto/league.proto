@@ -1,0 +1,33 @@
+
+syntax = "proto3";
+
+package eventFeed.v1;
+
+import "event.proto";
+
+message League {
+  string name = 1;
+  string template_id = 2;
+  string country_id = 3;
+  string country_name = 4;
+  string id = 5;
+  string template_type = 6;
+  string tournament_di = 7;
+  string source_type = 8;
+  string has_live_table = 9;
+  string stat_type = 10;
+  string template_key = 11;
+  string sport_stage_type = 12;
+  string template_url = 13;
+  string image = 14;
+  string sort_key = 15;
+  string stage_count = 16;
+  string has_standings_stage = 17;
+  string category_caption = 18;
+  bool display = 19;
+  int32 g_count = 20;
+  string sport_id = 21;
+  string sport = 22;
+  bool is_valid = 23;
+  repeated Event events = 24;
+}
