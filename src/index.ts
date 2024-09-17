@@ -13,3 +13,11 @@ fetch("/proto")
 	.then((buffer) => EventFeed.deserializeBinary(new Uint8Array(buffer)))
 	.then((data) => console.log(data.toObject()))
 	.catch((error) => console.error("Error:", error));
+
+fetch("/feed")
+	.then((response) => response.text())
+	.then(console.log);
+
+fetch("/json")
+	.then((response) => response.json())
+	.then(console.log);

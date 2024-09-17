@@ -2,7 +2,6 @@ import fs from "node:fs";
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
-import type { StreamingApi } from "hono/dist/types/utils/stream";
 import { stream } from "hono/streaming";
 import { events } from "./src/fixtures/events";
 import { league2eventMap } from "./src/fixtures/league2eventMap";
@@ -18,10 +17,15 @@ app.get("/", (c) => {
 	return c.html(data);
 });
 
+function compress(str: Uint8Array | string): ReadableStream {
+	const stream = new Blob([str]).stream();
+	return stream.pipeThrough(new CompressionStream("gzip"));
+}
+
 app.get("/proto", (c) => {
 	return stream(c, async (stream) => {
-		stream.onAbort(() => console.log("Aborted!"));
-		await stream.write(getData());
+		c.res.headers.set("Content-Encoding", "gzip");
+		await stream.pipe(compress(getData()));
 	});
 });
 
@@ -29,48 +33,45 @@ function obfuscate(key: string) {
 	return obfuscationMap.get(key) ?? key;
 }
 
-async function serializeAnObject(
-	stream: StreamingApi,
-	object: {
-		[key: string]: any;
-	},
-) {
+function serializeAnObject(object: { [key: string]: any }) {
 	const entries = Object.entries(object);
-	for (const [key, value] of entries) {
-		await stream.write(`${obfuscate(key)}÷${value}¬`);
-	}
-	await stream.write("~");
+	const srializedObject = entries
+		.map(([key, value]) => `${obfuscate(key)}÷${value}¬`)
+		.join();
+	return `${srializedObject}~`;
 }
 
 app.get("/feed", (c) => {
-	return stream(c, async (stream) => {
-		stream.onAbort(() => console.log("Aborted!"));
+	let output = "";
+	for (const league of leagues) {
+		output += serializeAnObject(league);
 
-		for (const league of leagues) {
-			await serializeAnObject(stream, league);
-
-			const eventIds = league2eventMap.get(league.ID) ?? [];
-			for (const eventId of eventIds) {
-				const event = events.find((event) => event.ORIGINAL_ID === eventId);
-				if (!event) continue;
-
-				await serializeAnObject(stream, event);
-			}
+		const eventIds = league2eventMap.get(league.ID) ?? [];
+		for (const eventId of eventIds) {
+			const event = events.find((event) => event.ORIGINAL_ID === eventId);
+			if (!event) continue;
+			output += serializeAnObject(event);
 		}
+	}
 
-		await stream.close();
+	return stream(c, async (stream) => {
+		c.res.headers.set("Content-Encoding", "gzip");
+		await stream.pipe(compress(output));
 	});
 });
 
 app.get("/json", (c) => {
-	return c.json(
-		leagues.map((league) => ({
-			...league,
-			events: events.filter((event) =>
-				(league2eventMap.get(league.ID) ?? []).includes(event.ORIGINAL_ID),
-			),
-		})),
-	);
+	const data = leagues.map((league) => ({
+		...league,
+		events: events.filter((event) =>
+			(league2eventMap.get(league.ID) ?? []).includes(event.ORIGINAL_ID),
+		),
+	}));
+
+	return stream(c, async (stream) => {
+		c.res.headers.set("Content-Encoding", "gzip");
+		await stream.pipe(compress(JSON.stringify(data)));
+	});
 });
 
 const port = 3000;
