@@ -43,6 +43,24 @@ Run dev server
 npm run dev
 ```
 
-
 ### notes unde line
 Use npm for the project. Bun does not yet support compresion streams.
+
+
+# RESULTS
+## Data Transfered sizes
+### no compression
+| Data Type        | Size   | Percentage |
+|------------------|--------|------------|
+| Protocol buffers | 449 kB | 100%       |
+| Custom format    | 617 kB | 137%       |
+| JSON format      | 831 kB | 185%       |
+![no compression](/doc/withoutCompression.png)
+
+### GZip compression
+| Data Type        | Size    | Percentage |
+|------------------|---------|------------|
+| Protocol buffers | 60.4 kB | 100%       |
+| Custom format    | 60.9 kB | 101%       |
+| JSON format      | 70.0 kB | 115%       |
+![no compression](/doc/withCompression.png)
